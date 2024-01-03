@@ -9,8 +9,11 @@ const emit = defineEmits(['add-to-favorite']);
 
 <template>
   <ul :class="$style.pokemons" v-if="pokemons.length > 0">
+    <h3>Pockemon List: {{ pokemons.length }} displayed</h3>
     <li v-for="pokemon in pokemons" :key="pokemon.name">
-      <label :for="pokemon.name"> {{ pokemon.name }}:</label>
+      <a :href="pokemon.url"
+        ><label :for="pokemon.name"> {{ pokemon.name }}:</label></a
+      >
       <button @click="emit('add-to-favorite', pokemon)">Favorite</button>
     </li>
   </ul>
@@ -23,6 +26,9 @@ const emit = defineEmits(['add-to-favorite']);
     display: flex;
     justify-content: space-between;
     padding-bottom: 5px;
+    label{
+      cursor:pointer;
+    }
   }
 }
 </style>

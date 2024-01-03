@@ -1,6 +1,7 @@
 <script setup>
 import HomePage from '../pages/HomePage.vue';
 import LogInPage from '../pages/LogInPage.vue';
+import UsersPage from '@/pages/UsersPage.vue';
 import BaseButton from './BaseButton.vue';
 import { ref } from 'vue';
 
@@ -9,7 +10,8 @@ const page = ref('HomePage');
 
 const components = {
   HomePage,
-  LogInPage
+  LogInPage,
+  UsersPage
 };
 
 const directToPage = (pageName) => {

@@ -1,25 +1,21 @@
 <script setup>
 const props = defineProps({
-  actors: Array,
+  favoritePockemons: Array,
   title: String
 });
-
-const generateFavoriteActors = () => {
-  return props.actors.filter((item) => item.favorite === true);
-};
 </script>
 
 <template>
-  <ul :class="$style.favoriteActors" v-show="generateFavoriteActors().length > 0">
+  <ul :class="$style.favoritePockemons" v-if="favoritePockemons.length > 0">
     <h3>{{ title }}</h3>
-    <template v-for="actor in actors" :key="actor.id">
-      <li v-if="actor.favorite">{{ actor.name }}</li>
+    <template v-for="pockemon in favoritePockemons" :key="pockemon.name">
+      <li>{{ pockemon.name }}</li>
     </template>
   </ul>
 </template>
 
 <style module>
-.favoriteActors {
+.favoritePockemons {
   padding-top: 10px;
 }
 </style>
