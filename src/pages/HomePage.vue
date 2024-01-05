@@ -3,6 +3,7 @@ import AddNewPockemon from '@/components/AddNewPockemon.vue';
 import Counter from '@/components/Counter.vue';
 import FavoriteActorsList from '@/components/FavoriteActorsList.vue';
 import PockemonList from '@/components/PockemonList.vue';
+import UsersPage from './UsersPage.vue';
 import { computed, onBeforeMount, reactive } from 'vue';
 import {count} from "../composables/useCount";
 
@@ -69,6 +70,7 @@ const addFavorite = (pockemonPayload) => {
         labelText="Add a new Pockemon"
         @add-new-pockemon="addNewPockemon"
       />
+      <UsersPage/>
     </div>
   </section>
 </template>
