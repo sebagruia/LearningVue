@@ -18,7 +18,6 @@ const getUsers = async () => {
 onBeforeMount(() => {
   getUsers();
 });
-console.log(users.value);
 </script>
 
 <template>

@@ -15,7 +15,6 @@ const components = {
 };
 
 const directToPage = (pageName) => {
-  console.log(pageName);
   page.value = pageName;
 };
 </script>
