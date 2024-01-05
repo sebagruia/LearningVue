@@ -1,18 +1,11 @@
 <script setup>
 import BaseButton from './BaseButton.vue';
+import { count } from '@/composables/useCount';
+
 const props = defineProps({
-  count: {
-    type: Number
-  },
   label: {
     type: String,
     default: 'CounterButton'
-  },
-  increment: {
-    type: Function
-  },
-  decrement: {
-    type: Function
   },
   button_1: {
     type: Boolean,
@@ -23,6 +16,15 @@ const props = defineProps({
     default: true
   }
 });
+
+const increment = () => {
+  count.value++;
+};
+const decrement = () => {
+  if (count.value > 0) {
+    count.value--;
+  }
+};
 </script>
 
 <template>

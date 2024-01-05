@@ -4,11 +4,11 @@ import Counter from '@/components/Counter.vue';
 import FavoriteActorsList from '@/components/FavoriteActorsList.vue';
 import PockemonList from '@/components/PockemonList.vue';
 import { computed, onBeforeMount, reactive } from 'vue';
+import {count} from "../composables/useCount";
 
 const data = reactive({
   message: 'This is my Pockemon App',
   counterTitle: 'Counter Standard',
-  count: 0,
   pokemonData: [],
   favoritePockemons: []
 });
@@ -28,19 +28,10 @@ onBeforeMount(() => {
   fetchPokemon();
 });
 
-const increment = () => {
-  data.count++;
-};
-const decrement = () => {
-  if (data.count > 0) {
-    data.count--;
-  }
-};
-
 const displayTitle = computed(() => {
-  if (data.count > 20) {
+  if (count.value > 20) {
     return 'Counter Max';
-  } else if (data.count >= 0 && data.count <= 20) {
+  } else if (count.value >= 0 && count.value <= 20) {
     return 'Counter Standard';
   }
 });
@@ -58,11 +49,10 @@ const addFavorite = (pockemonPayload) => {
     <div class="wrapper">
       <h1>{{ data.message }}</h1>
       <h2>{{ displayTitle }}</h2>
+      <h2>Count From Composable: {{ count }}</h2>
+      
       <Counter
         label="CounterButton"
-        :count="data.count"
-        :increment="increment"
-        :decrement="decrement"
       >
       </Counter>
       <PockemonList
