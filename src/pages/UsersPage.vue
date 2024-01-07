@@ -1,7 +1,8 @@
 <script setup>
+import Layout from '@/components/Layout.vue';
 import User from '@/components/User.vue';
-import { onBeforeMount, ref } from 'vue';
-import {userList} from "../composables/useUserList";
+import { onBeforeMount } from 'vue';
+import { userList } from '../composables/useUserList';
 
 const getUsers = async () => {
   try {
@@ -21,12 +22,14 @@ onBeforeMount(() => {
 </script>
 
 <template>
-  <main>
-    <h3>Users List</h3>
-    <ul class="$style.usersList">
-      <User v-for="user in userList" :key="`user-${user.id}`" :user="user"/>
-    </ul>
-  </main>
+  <Layout>
+    <section>
+      <h3>Users List</h3>
+      <ul class="$style.usersList">
+        <User v-for="user in userList" :key="`user-${user.id}`" :user="user" />
+      </ul>
+    </section>
+  </Layout>
 </template>
 
 <style module></style>
