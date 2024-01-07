@@ -1,30 +1,34 @@
 <script setup>
-import HomePage from '../pages/HomePage.vue';
-import LogInPage from '../pages/LogInPage.vue';
+import { useRoute, useRouter } from 'vue-router';
 import BaseButton from './BaseButton.vue';
-import { ref } from 'vue';
 
+const router = useRouter();
+const route = useRoute();
 
-const page = ref('HomePage');
+const paths = [
+  { name: 'HomePage', route: '/' },
+  { name: 'Login', route: '/login' },
+  { name: 'Users', route: '/users' }
+];
 
-const components = {
-  HomePage,
-  LogInPage
-};
-
-const directToPage = (pageName) => {
-  console.log(pageName);
-  page.value = pageName;
+const directToPage = (path) => {
+  console.log('Fire');
+  router.push(path);
 };
 </script>
 
 <template>
   <main>
     <header>
-      <BaseButton v-for="(_, key) in components" @clicked-button="directToPage(key)" :buttonText="key" />
+      <BaseButton
+        v-for="(path, index) in paths"
+        @clicked-button="directToPage(path.route)"
+        :buttonText="path.name"
+        :key="index"
+      />
     </header>
-    <h1>{{ page }}</h1>
-    <component :is="components[page]"/>
+    <h1>{{ route.name }}</h1>
+    <slot></slot>
   </main>
 </template>
 

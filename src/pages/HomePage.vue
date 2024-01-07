@@ -1,45 +1,18 @@
 <script setup>
-import { reactive , computed, onBeforeMount} from 'vue';
+import AddNewPockemon from '@/components/AddNewPockemon.vue';
 import Counter from '@/components/Counter.vue';
-import AddNewActor from '@/components/AddNewActor.vue';
-import MovieActorsList from '@/components/MovieActorsList.vue';
 import FavoriteActorsList from '@/components/FavoriteActorsList.vue';
+import Layout from '@/components/Layout.vue';
+import PockemonList from '@/components/PockemonList.vue';
+import { computed, onBeforeMount, reactive } from 'vue';
+import { count } from '../composables/useCount';
+import UsersPage from './UsersPage.vue';
 
 const data = reactive({
-  message: 'This is my movie',
+  message: 'This is my Pockemon App',
   counterTitle: 'Counter Standard',
-  count: 0,
   pokemonData: [],
-  details: {
-    title: 'Matrix',
-    length: '3h',
-    actors: [
-      {
-        id: 1,
-        name: 'Keanu Reeves',
-        favorite: false,
-        movies: 2
-      },
-      {
-        id: 2,
-        name: 'Carrie-Anne Moss',
-        favorite: false,
-        movies: 5
-      },
-      {
-        id: 3,
-        name: 'Laurence Fishburne',
-        favorite: false,
-        movies: 1
-      },
-      {
-        id: 4,
-        name: 'Hugo Weaving',
-        favorite: false,
-        movies: 9
-      }
-    ]
-  }
+  favoritePockemons: []
 });
 
 const fetchPokemon = async () => {
@@ -48,8 +21,6 @@ const fetchPokemon = async () => {
     const response = await fetchedData.json();
     if (response && response.results.length > 0) {
       data.pokemonData = [...response.results];
-    } else {
-      data.pokemonData = [];
     }
   } catch (error) {
     console.log(error);
@@ -59,57 +30,49 @@ onBeforeMount(() => {
   fetchPokemon();
 });
 
-const increment = () => {
-  data.count++;
-};
-const decrement = () => {
-  if (data.count > 0) {
-    data.count--;
-  }
-};
-
 const displayTitle = computed(() => {
-  if (data.count > 20) {
+  if (count.value > 20) {
     return 'Counter Max';
-  } else if (data.count >= 0 && data.count <= 20) {
+  } else if (count.value >= 0 && count.value <= 20) {
     return 'Counter Standard';
   }
 });
 
-const addNewActor = (actorObjectPayload) => {
-  console.log(actorObjectPayload);
-  data.details.actors.push(actorObjectPayload);
+const addNewPockemon = (pockemonObjectPayload) => {
+  data.pokemonData.push(pockemonObjectPayload);
 };
 const addFavorite = (pockemonPayload) => {
-  console.log(pockemonPayload);
-  data.details.actors.push(pockemonPayload);
+  data.favoritePockemons.push(pockemonPayload);
 };
-
 </script>
 
 <template>
-  <section>
-    <div class="wrapper">
-      <h1>{{ data.message }}</h1>
-      <p>{{ data.details.title }}</p>
-      <p>{{ data.details.actors.length }}</p>
-      <h2>{{ displayTitle }}</h2>
-      <Counter
-        label="CounterButton"
-        :count="data.count"
-        :increment="increment"
-        :decrement="decrement"
-      >
-      </Counter>
-      <MovieActorsList @add-to-favorite="" :pokemons="data.pokemonData" text="Pokemon Characters" />
-      <FavoriteActorsList :actors="data.details.actors" title="Favorite actors" />
-      <AddNewActor
-        text="AddNewActor"
-        labelText="Add a new Actor"
-        @add-new-actor="addNewActor"
-      />
-    </div>
-  </section>
+  <Layout>
+    <section>
+      <div class="wrapper">
+        <h1>{{ data.message }}</h1>
+        <h2>{{ displayTitle }}</h2>
+        <h2>Count From Composable: {{ count }}</h2>
+
+        <Counter label="CounterButton"> </Counter>
+        <PockemonList
+          @add-to-favorite="addFavorite"
+          :pokemons="data.pokemonData"
+          text="Pokemon Characters"
+        />
+        <FavoriteActorsList
+          :favoritePockemons="data.favoritePockemons"
+          title="Favorite actors"
+        />
+        <AddNewPockemon
+          text="AddPockemon"
+          labelText="Add a new Pockemon"
+          @add-new-pockemon="addNewPockemon"
+        />
+        <UsersPage />
+      </div>
+    </section>
+  </Layout>
 </template>
 
 <style module></style>
